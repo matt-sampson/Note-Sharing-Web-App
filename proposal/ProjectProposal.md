@@ -1,7 +1,7 @@
 #Project Description
-For this project, we wish to create a note-sharing platform for students at UofT to use for a variety of courses; for the scope of this project though, we will focus on Computer Science courses. This application is specifically targeted at students who may not be able to attend all of their lectures or tutorials so that they have a source of notes for what they missed. Users of this platform should be able to subscribe to the courses that they are currently taking; in addition to this, they should be able to post notes, and edit the notes they have posted for courses that they are subscribed to. Also, the users should be able to search up all notes being shared according to either course code or the user that posted the notes. A final, but integral part of the platform is the ability to rate notes according to their quality so that posted notes can be sorted according to user-agreed ratings.
+For this project, we wish to create a note-sharing platform for students at UofT to use for a variety of courses; for the scope of this project though, we will focus on Computer Science courses. This application is specifically targeted at students who may not be able to attend all of their lectures or tutorials so that they have a source of notes for what they missed. ```Users``` of this platform should be able to subscribe to the ```courses``` that they are currently taking; in addition to this, they should be able to post ```notes```, and edit the notes they have posted for ```courses``` that they are subscribed to. Also, the ```users``` should be able to search up all ```notes``` being shared according to either course code or the ```user``` that posted the ```notes```. A final, but integral part of the platform is the ability to ```rate``` notes according to their quality so that posted notes can be sorted according to user-agreed ratings.
 
-On a side note, a subclass of users that will exist are the admins that can control parts of the platform. More specifically, the admin should be able to:
+User profiles can also accessed by anyone; these profiles contains the ```name/username``` of the user as well as their ```registered courses``` and an ```average note rating``` according to the individual ```ratings``` of their ```notes```. On a side note, a subclass of ```users``` that will exist are the ```admins``` that can control parts of the platform. More specifically, the admin should be able to:
 - Add/Delete ``` Course ```
 - Add/Delete ```Users ```
 - Add/Delete ```Course``` to the  ```Subscribed Courses``` of any individual ```User``` 
@@ -40,7 +40,8 @@ All data will be stored using MongoDb. The JSON representations for the objects 
     User{
    	 Name: ,
    	 Courses: [...(list of Courses this user signed up for)...],
-   	 Notes: [...(list of Notes by this user)...]
+   	 Notes: [...(list of Notes by this user)...],
+     OverallNoteRating:
     }
 
     Course{
