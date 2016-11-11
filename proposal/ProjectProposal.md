@@ -53,3 +53,11 @@ All data will be stored using MongoDb. The JSON representations for the objects 
    	 Text: ,
    	 Ratings: [...(list of ratings from 1 to 5)...]
     }
+#View Sketches
+PNG files for the View Sketches can be found within the ```proposal``` directory.
+
+![Get Notes For Course] (https://github.com/CSC309-Fall-2016/Yugoslavian_Folk_Dance_Appreciation_Society/tree/master/proposal/View_Sketch1.PNG)
+
+![Get Registered Courses For User](https://github.com/CSC309-Fall-2016/Yugoslavian_Folk_Dance_Appreciation_Society/tree/master/proposal/View_Sketch2.PNG)
+
+![Edit Note](https://github.com/CSC309-Fall-2016/Yugoslavian_Folk_Dance_Appreciation_Society/tree/master/proposal/View_Sketch3.PNG)
