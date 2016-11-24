@@ -1,0 +1,34 @@
+[
+	{
+		"username" : "testname1",
+		"password" : "pass1",
+		"courses":["1234","2222","4343"],
+		"notes": [
+			{
+				"code": "1234",
+				"title": "Title1"
+			}
+		]
+	},
+	{
+		"username" : "testname2",
+		"password" : "pass2",
+		"courses":["1234","2222","4343"],
+		"notes": [
+			{
+				"code": "2222",
+				"title": "Title2"
+			},
+			{
+				"code": "4343",
+				"title": "Title3"
+			}
+		]
+	},
+	{
+		"username" : "testname3",
+		"password" : "pass3",
+		"courses":["1234","2222","4343"],
+		"notes": []
+	}
+]
