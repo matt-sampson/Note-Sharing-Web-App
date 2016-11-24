@@ -5,6 +5,5 @@ div.note-view {
 textarea#note-view {
 	width: 40%;
 	height: 900px;
-	float: center;
 	resize: none;
 }
