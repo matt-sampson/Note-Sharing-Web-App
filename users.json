@@ -2,6 +2,7 @@
 	{
 		"username" : "testname1",
 		"password" : "pass1",
+		"email" : "test1@four.com",
 		"courses":["1234","2222","4343"],
 		"notes": [
 			{
@@ -13,6 +14,7 @@
 	{
 		"username" : "testname2",
 		"password" : "pass2",
+		"email" : "test2@four.com",
 		"courses":["1234","2222","4343"],
 		"notes": [
 			{
@@ -28,6 +30,7 @@
 	{
 		"username" : "testname3",
 		"password" : "pass3",
+		"email" : "test3@four.com",
 		"courses":["1234","2222","4343"],
 		"notes": []
 	}
