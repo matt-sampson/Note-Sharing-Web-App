@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var routes = require('./routes');
 var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
 var expressValidator = require('express-validator');
@@ -75,15 +74,15 @@ app.use(expressValidator({
 app.get('/', function(req, res) {
     res.sendFile('index.html');
 });
-app.get('/courses', all_Courses);
-app.get('/users', all_Users);
-app.get('/course/:code', find_Course);
-app.get('/user/:username', find_User);
-app.get('/login/:username/:password', log_In);
+//app.get('/courses', all_Courses);
+//app.get('/users', all_Users);
+//app.get('/course/:code', find_Course);
+//app.get('/user/:username', find_User);
+//app.get('/login/:username/:password', log_In);
 app.get('/current', get_Current_User);
 app.get('/logout', log_Out);
 app.post('/signup', sign_Up); // Getting the value from a form input
-app.post('/addcourse', add_Course);
+//app.post('/addcourse', add_Course);
 
 function sign_Up(req, res) {
 
@@ -170,6 +169,7 @@ function sign_Up(req, res) {
 
             newUser.save(function(err, new_User) {
                 if (err) throw err;
+                req.session.name = req.body.username; // logs in the user after they sign up
                 res.send(new_User);
             });
         }
@@ -257,6 +257,11 @@ function log_In(req, res) {
             res.send("Invalid Login ");
         }
     });
+}*/
+
+function log_Out(req, res) {
+    req.session = null;
+    return res.json({});
 }
 
 function get_Current_User(req, res){
@@ -267,11 +272,6 @@ function get_Current_User(req, res){
         res.send("failure");
     }
 }
-
-function log_Out(req, res) {
-    req.session = null;
-    return res.json({});
-}*/
 
 
 app.listen(process.env.PORT || 3000);
