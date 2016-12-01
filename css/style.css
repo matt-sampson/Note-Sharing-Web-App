@@ -184,6 +184,64 @@ fieldset {
     margin: 3rem 0;
 }
 
+/* NOTE PAGE */
+
+.note_info {
+	font-size: 16px;
+	margin-left: 3%;
+}
+
+.note-view {
+	text-align: center;
+	height: 90%;
+	margin-top: -4.5%;
+}
+textarea#note-view {
+	width: 40%;
+	height: 900px;
+	resize: none;
+	disabled: true;
+}
+
+.edit_button #toggle_edit {
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #4CAF50;
+	width: 20%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+	float:right;
+	margin-top: -849px;
+	margin-right: 3.8%;
+}
+
+.edit_button .toggle_edit.toggled {
+
+}
+
+.save_button #save {
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	outline: 0;
+	background: #4CAF50;
+	width: 20%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+	float:right;
+	margin-top: -94px;
+	margin-right: 3.8%;
+}
 
 /* STYLING FIELDS WITH ERRORS */
 /* New pseudo-classes to style fields that have an error: */
