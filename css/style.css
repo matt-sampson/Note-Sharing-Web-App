@@ -184,6 +184,18 @@ fieldset {
     margin: 3rem 0;
 }
 
+/* NOTE PAGE */
+
+div.note-view {
+	text-align: center;
+	height: 90%;
+}
+textarea#note-view {
+	width: 40%;
+	height: 900px;
+	resize: none;
+}
+
 
 /* STYLING FIELDS WITH ERRORS */
 /* New pseudo-classes to style fields that have an error: */
