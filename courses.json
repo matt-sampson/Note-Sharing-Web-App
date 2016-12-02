@@ -4,9 +4,7 @@
 		"notes": [
 			{
 				"uploader": "testname1",
-				"title": "Title1",
-				"text": "TestText1",
-				"ratings": ["4","5"]
+				"title": "Title1"
 			}
 		]
 	},
@@ -15,9 +13,7 @@
 		"notes": [
 			{
 				"uploader": "testname2",
-				"title": "Title2",
-				"text": "TestText2",
-				"ratings": ["1","1"]
+				"title": "Title2"
 			}
 		]
 	},
@@ -26,9 +22,7 @@
 		"notes": [
 			{
 				"uploader": "testname2",
-				"title": "Title3",
-				"text": "TestText3",
-				"ratings": ["3","5"]
+				"title": "Title3"
 			}
 		]
 	}

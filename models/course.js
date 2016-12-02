@@ -16,9 +16,7 @@ var courseSchema = new Schema(
         notes: [
             {
                 uploader: {type: String, required: true},
-                title: {type: String, required: true, index:true, unique:true, sparse:true},
-                text: {type: String, required: true},
-                ratings: [String]
+                title: {type: String, required: true, index:true, unique:true, sparse:true}
             }
         ]
     },

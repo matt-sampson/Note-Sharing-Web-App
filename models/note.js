@@ -18,8 +18,8 @@ var noteSchema = new Schema(
 		},
 		text: {
 			type: String, required: true
-		}
-		//ratings: [String]
+		},
+		ratings: [String]
 	},
 	{
 		collection: 'notes'
@@ -31,4 +31,4 @@ if (!(mongoose.connection.readyState==1||mongoose.connection.readyState==2)){
     mongoose.connect('mongodb://localhost/notesdb');
 }
 // Doc for Mongoose Models: http://mongoosejs.com/docs/models
-module.exports = mongoose.model('course', courseSchema);
+module.exports = mongoose.model('note', noteSchema);

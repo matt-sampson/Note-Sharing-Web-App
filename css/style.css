@@ -225,6 +225,9 @@ textarea#note-view {
 
 }
 
+.error  {
+	color: #EF3B3A;
+}
 .save_button #save {
 	font-family: "Roboto", sans-serif;
 	text-transform: uppercase;
