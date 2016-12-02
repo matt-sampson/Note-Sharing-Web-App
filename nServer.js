@@ -5,6 +5,7 @@ var session = require('cookie-session');
 var expressValidator = require('express-validator');
 var User = require('./models/user');
 var Course = require('./models/course');
+var Note = require('./models/note');
 var app = express();
 
 app.use(express.static(__dirname + '/assets'));
@@ -25,9 +26,9 @@ app.engine('.html', require('ejs').__express);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
-var duplicateError = false;
 var nameError = false;
 var mailError = false;
+var titleError = false;
 
 app.use(expressValidator({
     customValidators: {
@@ -48,7 +49,7 @@ app.use(expressValidator({
         },
         duplicateEmail : function(value){
             return !mailError;
-        }
+        },
 		duplicateTitle : function(value){
 			return !titleError;
 		}
@@ -75,17 +76,114 @@ app.use(expressValidator({
 ];*/
 
 app.get('/', function(req, res) {
-    res.sendFile('index.html');
+    res.sendFile(__dirname + '/index.html');
 });
-//app.get('/courses', all_Courses);
-//app.get('/users', all_Users);
+app.get('/note', function(req, res) {
+    res.sendFile( __dirname + '/note.html');
+});
+app.get('/courses', all_Courses);
+app.get('/users', all_Users);
+app.get('/notes', all_Notes);
 //app.get('/course/:code', find_Course);
 //app.get('/user/:username', find_User);
 //app.get('/login/:username/:password', log_In);
 app.get('/current', get_Current_User);
 app.get('/logout', log_Out);
+app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 //app.post('/addcourse', add_Course);
+
+function note_Save(req, res) {
+    req.assert('title', 'A title is required').notEmpty();
+
+    var errorsT;
+    var mappedErrorsT;
+    titleError = false;
+
+    function duplicateT(Title,Uploader,callback){
+        Note.findOne({title:Title}, function(err, foundNote) {
+            if (foundNote!==null){
+                if (foundNote.uploader !== Uploader){
+                    titleError=true;
+                } 
+            }
+            req.checkBody('title', 'note with that title already exists by another user').duplicateTitle();
+            errorsT = req.validationErrors();
+            mappedErrorsT = req.validationErrors(true);
+            callback();
+        });
+    }
+
+    duplicateT(req.body.title, req.body.uploader, function() {
+        if (errorsT || titleError) {
+
+            // If errors exist, send them back to the form:
+            var errorMsgsT = { 'errors': {} };
+
+            if (mappedErrorsT.title) {
+                errorMsgsT.errors.error_title = mappedErrorsT.title.msg;
+                console.log(errorMsgsT.errors.error_title);
+            }
+            
+            res.render('note.html', errorMsgsT);
+
+        } else {
+            Course.findOne({code:req.body.code}, function(err, foundCourse) {
+                Course.findOne({"notes.title":req.body.title}, function(err, foundNote) {
+                    if(foundNote===null){
+                        foundCourse.notes.push({
+                            uploader: req.body.uploader,
+                            title: req.body.title
+                        });
+                        foundCourse.save(function(err) {
+                            if (err)
+                                console.log('error');
+                            else{
+                                console.log('success');         
+                            }
+                        }); 
+                    }   
+                });
+            });
+            User.findOne({username:req.body.uploader}, function(err, foundUser) {
+                User.findOne({"notes.title":req.body.title}, function(err, foundNote) {
+                    if(foundNote===null){
+                        foundUser.notes.push({
+                            code: req.body.code,
+                            title: req.body.title,
+                        });
+                        foundUser.save(function(err) {
+                            if (err)
+                                console.log('error');
+                            else{
+                                console.log('success');         
+                            }
+                        }); 
+                    }
+                });
+            });
+            Note.findOne({title :req.body.title}, function(err, foundNote) {
+                if(foundNote === null){
+                    var newNote = new Note({
+                        uploader: req.body.uploader,
+                        title: req.body.title,
+                        text: req.body.text,
+                        ratings: []
+                    });
+                    newNote.save(function(err) {
+                        if (err) throw err;
+                    });
+                }
+                else{
+                    foundNote.text = req.body.text;
+                    foundNote.save(function(err) {
+                        if (err) throw err;
+                    });
+                }
+            });
+        }
+    });
+}
 
 function sign_Up(req, res) {
 
@@ -112,19 +210,16 @@ function sign_Up(req, res) {
 
     var mappedErrors;
 
-    duplicateError = false;
     nameError = false;
     mailError = false;
 
     function duplicate(name,mail,callback){
         User.findOne({username: name}, function(err, foundUser) {
             if (foundUser!==null){
-                duplicateError = true;
                 nameError=true;
             }
             User.findOne({email: mail}, function(err, foundUser) {
                 if (foundUser!==null){
-                    duplicateError = true;
                     mailError=true;
                 }
                 req.checkBody('email', 'A user that uses that email already exists').duplicateEmail();
@@ -137,7 +232,7 @@ function sign_Up(req, res) {
     }
 
     duplicate(req.body.username, req.body.email, function() {
-        if (errors || duplicateError) {
+        if (errors || mailError || nameError) {
 
             // If errors exist, send them back to the form:
             var errorMsgs = { 'errors': {} };
@@ -179,20 +274,20 @@ function sign_Up(req, res) {
     });
 }
 
-/*function all_Courses(req, res) {
+function all_Courses(req, res) {
     Course.find({}, function(err, allCourses) {
         if (err) throw err;
         res.send(allCourses);
     });
 }
 
-function find_Course(req, res) {
+/*function find_Course(req, res) {
     var code = req.params.code;
     Course.find({code: code}, function(err, Course) {
         if (err) throw err;
         res.send(Course);
     });
-}
+}*/
 
 function all_Users(req, res) {
     User.find({}, function(err, allUsers) {
@@ -201,7 +296,14 @@ function all_Users(req, res) {
     });
 }
 
-function find_User(req, res) {
+function all_Notes(req, res) {
+    Note.find({}, function(err, allNotes) {
+        if (err) throw err;
+        res.send(allNotes);
+    });
+}
+
+/*function find_User(req, res) {
     var username = req.params.username;
     User.find({username: username}, function(err, foundUser) {
         if (err) throw err;
