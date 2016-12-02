@@ -49,6 +49,9 @@ app.use(expressValidator({
         duplicateEmail : function(value){
             return !mailError;
         }
+		duplicateTitle : function(value){
+			return !titleError;
+		}
     }
 }));
 
