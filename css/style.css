@@ -243,6 +243,31 @@ textarea#note-view {
 	margin-right: 3.8%;
 }
 
+/*NAVIGATION BAR*/
+nav {
+    float: left;
+    background-color: #4CAF50;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+a.header_nav_bar {
+  background-color: #ffffff;
+  display: inline-block;
+  background-color: #4CAF50;
+  color: #ffffff;
+  margin-left: -4;
+  float: left;
+  text-align: center;
+  padding: 14px 18px;
+  text-decoration: none;
+  border-right: 1px solid #ddd;
+}
+
+a.header_nav_bar:hover {
+    background-color: #4CBF50;
+}
+
 /* STYLING FIELDS WITH ERRORS */
 /* New pseudo-classes to style fields that have an error: */
 /* :valid, :invalid, :required, :optional, :in-range, :out-of-range */

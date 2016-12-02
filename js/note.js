@@ -3,6 +3,7 @@ var $ = jQuery;
 $(document).ready(function(){
 	document.getElementById("note-view").readOnly = true;
 	$("#toggle_edit").toggleClass("toggled");
+	$("header").load("../common.html");
 	
 	$("#toggle_edit").click(function() {
 		$(this).toggleClass("toggled");

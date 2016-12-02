@@ -243,7 +243,7 @@ function addTestCourse(){
         if (err) throw err;
     });
 }
-
+*/
 function log_In(req, res) {
     var username = req.params.username;
     var password = req.params.password;
@@ -257,7 +257,7 @@ function log_In(req, res) {
             res.send("Invalid Login ");
         }
     });
-}*/
+}
 
 function log_Out(req, res) {
     req.session = null;
