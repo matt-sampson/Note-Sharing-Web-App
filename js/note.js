@@ -8,6 +8,26 @@ $(document).ready(function(){
 		$(this).toggleClass("toggled");
 		toggleTextArea();
 	});
+
+	$('#save').click(function(){
+		var note = {
+			"uploader" : $('#author').text(),
+			"title" : $('#title').val(),
+			"text" : $('#note-view').val(),
+			"code": $('#course').text()
+		};
+
+		$.ajax({
+			url : "/notesave",
+			data : note,
+			method: "POST",
+			success : function(data){
+				if (data === false){
+					alert("note with that title already exists by another user")
+				}
+			}
+		});
+	});
 });
 
 function toggleTextArea() {
