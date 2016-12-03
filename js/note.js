@@ -23,7 +23,9 @@ $(document).ready(function(){
 			data : note,
 			method: "POST",
 			success : function(data){
-				console.log("Success");
+				if (data === false){
+					alert("note with that title already exists by another user")
+				}
 			}
 		});
 	});
