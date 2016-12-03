@@ -29,6 +29,8 @@ app.set('view engine', 'html');
 var nameError = false;
 var mailError = false;
 var titleError = false;
+var passmatch = true;
+var userExist = true;
 
 app.use(expressValidator({
     customValidators: {
@@ -49,6 +51,12 @@ app.use(expressValidator({
         },
         duplicateEmail : function(value){
             return !mailError;
+        },
+        matchPassword : function(value){
+            return passmatch;
+        },
+        userCheck : function(value){
+            return userExist;
         }
     }
 }));
@@ -73,7 +81,8 @@ app.use(expressValidator({
 ];*/
 
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+    //res.sendFile(__dirname + '/index.html');
+    res.render('indextest', {errors : ''});
 });
 app.get('/note', function(req, res) {
     res.sendFile( __dirname + '/note.html');
@@ -83,7 +92,7 @@ app.get('/users', all_Users);
 app.get('/notes', all_Notes);
 //app.get('/course/:code', find_Course);
 //app.get('/user/:username', find_User);
-//app.get('/login/:username/:password', log_In);
+app.post('/login', log_In);
 app.get('/current', get_Current_User);
 app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
@@ -177,8 +186,7 @@ function sign_Up(req, res) {
 
 
 
-    req.checkBody('username',
-                  'Username not formatted properly.').isUserName();
+    req.checkBody('username','Username not formatted properly.').isUserName();
 
     // Checking phone number:
     req.checkBody('password', 'Password not formatted properly.').isPassword();
@@ -236,7 +244,7 @@ function sign_Up(req, res) {
             }
 
 
-            res.render('index', errorMsgs);
+            res.render('indextest', errorMsgs);
 
 
         } else {
@@ -244,6 +252,7 @@ function sign_Up(req, res) {
                 username: req.body.username,
                 password: req.body.password,
                 email: req.body.email,
+                admin: false,
                 courses: [],
                 notes:[]
             });
@@ -333,16 +342,52 @@ function addTestCourse(){
 }
 */
 function log_In(req, res) {
-    var username = req.params.username;
-    var password = req.params.password;
-    User.findOne({username: username}, function(err, User) {
-        if (err) throw err;
-        if(User.password==password){
-            req.session.name = username;
-            res.send("Success");
+    passmatch = true;
+    userExist = true;
+    var loginFail = true;
+    req.assert('username', 'A username is required').notEmpty();
+    req.assert('password', 'A password is required').notEmpty();
+
+    req.checkBody('username','Username not formatted properly.').isUserName();
+    req.checkBody('password', 'Password not formatted properly.').isPassword();
+
+    User.findOne({username: req.body.username}, function(err, User) {
+        if(User !== null){
+            if (err) throw err;
+            if(User.password==req.body.password){
+                req.session.name = req.body.username;
+                loginFail=false;
+                if(User.admin){
+                    res.sendFile(__dirname + '/admin_home_page.html');
+                }else{
+                    res.sendFile(__dirname + '/user_home_page.html');
+                }
+            }
+            else{
+                passmatch = false;
+                req.checkBody('password', 'Password doesnt match username' ).matchPassword();
+            }
         }
         else{
-            res.send("Invalid Login ");
+            userExist = false;
+            req.checkBody('username', 'Username not in database' ).userCheck();
+        }
+        if(loginFail){
+            var errors = req.validationErrors();
+            var mappedErrors = req.validationErrors(true);
+            var errorMsgs = { 'errors': {} };
+
+            if (mappedErrors.username) {
+                errorMsgs.errors.error_login = mappedErrors.username.msg;
+                console.log(errorMsgs.errors.error_login);
+            }
+
+            if (mappedErrors.password) {
+                errorMsgs.errors.error_login = mappedErrors.password.msg;
+                console.log(errorMsgs.errors.error_login);
+            }
+
+            res.render('indextest', errorMsgs);
         }
     });
 }
