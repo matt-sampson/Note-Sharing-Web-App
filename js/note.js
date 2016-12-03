@@ -36,10 +36,10 @@ function DocumentReady(){
 
 	$('.homePage').click(function(){
 		$.ajax({
-			url : "/isadmin",
+			url : "/currentDoc",
 			method: "GET",
 			success : function(data){
-				if (data){
+				if (data.admin){
 					location.replace("http://localhost:3000/admin_home_page.html");
 				}
 				else{
