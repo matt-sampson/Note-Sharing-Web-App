@@ -60,9 +60,26 @@ h1{
 	height: 100%;
 	width: 100%;
 
-	display:inline-block;
+	display:flex;
+	justify-content: center;
 	margin:0px;
    vertical-align: top;
+
    
 }
 
+ul#linkTable{
+	margin: 20px;
+	background: white;
+	text-align: center;
+	height: 60%;
+	width: 60%;
+	list-style: none;
+	text-decoration: underline;
+	color: blue;
+}
+
+ul#linkTable li a:hover{
+	cursor : pointer;
+	color: #008ae6;
+}
