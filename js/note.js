@@ -23,7 +23,7 @@ $(document).ready(function(){
 			method: "POST",
 			success : function(data){
 				if (data === false){
-					alert("note with that title already exists by another user")
+					alert("note with that title already exists by another user");
 				}
 			}
 		});

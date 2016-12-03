@@ -45,12 +45,14 @@
         <button class = "createAccount">create</button>
       <p class="message">Already registered? <a href="#">Sign In</a></p>
     </form>
-    <form class="login-form" action = "/login" method="get">
+    <form class="login-form" action = "/login" method="post">
       <div class="Header"><h1>Sign in to NoteHub!</h1></div>
 
       <div class="form_element"><label id = "usernameField"><input type="text" name = "username" placeholder="username"/></label></div>
 
       <div class = "form_element"><label id = "passwordField"><input type="password" name = "password" placeholder="password"/></label></div>
+
+      <span class="error"><%- errors.error_login %></span>
 
       <button>login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>

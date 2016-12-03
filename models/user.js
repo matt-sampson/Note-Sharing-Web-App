@@ -18,6 +18,9 @@ var userSchema = new Schema(
         email: {
             type: String, required: true, unique: true
         },
+        admin: {
+            type: Boolean, required: true
+        },
         courses: [String],
         notes: [
             {
