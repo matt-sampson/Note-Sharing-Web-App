@@ -200,6 +200,8 @@ textarea#note-view {
 	width: 40%;
 	height: 900px;
 	resize: none;
+  display: inline-block;
+  margin-top: -185px;
 	disabled: true;
 }
 
@@ -221,13 +223,10 @@ textarea#note-view {
 	margin-right: 3.8%;
 }
 
-.edit_button .toggle_edit.toggled {
-
-}
-
 .error  {
 	color: #EF3B3A;
 }
+
 .save_button #save {
 	font-family: "Roboto", sans-serif;
 	text-transform: uppercase;
@@ -244,6 +243,42 @@ textarea#note-view {
 	float:right;
 	margin-top: -94px;
 	margin-right: 3.8%;
+}
+
+p {
+  display: inline-block;
+  margin-bottom: 3px;
+}
+
+.note_info {
+  display: inline-block;
+}
+
+/*NAVIGATION BAR*/
+/*some css taken and modified from a previous personal project*/
+nav {
+    float: left;
+    background-color: #4CAF50;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+a.header_nav_bar {
+  background-color: #ffffff;
+  display: inline-block;
+  background-color: #4CAF50;
+  color: #ffffff;
+  margin-left: -4;
+  float: left;
+  text-align: center;
+  padding: 14px 18px;
+  text-decoration: none;
+  border-right: 1px solid #ddd;
+  width:10%;
+}
+
+a.header_nav_bar:hover {
+    background-color: #4CBF50;
 }
 
 /* STYLING FIELDS WITH ERRORS */
