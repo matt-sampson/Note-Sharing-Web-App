@@ -93,16 +93,16 @@ app.get('/notes', all_Notes);
 //app.get('/course/:code', find_Course);
 //app.get('/user/:username', find_User);
 app.post('/login', log_In);
-app.get('/current', get_Current_User);
-app.get('/isadmin', current_User_Admin);
+app.get('/current', get_Current_User_Name);
+app.get('/currentDoc', current_User_Doc);
 app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 //app.post('/addcourse', add_Course);
 
-function current_User_Admin(req,res){
+function current_User_Doc(req,res){
     User.findOne({username:req.session.name}, function(err,foundUser){
-        res.send(foundUser.admin);
+        res.send(foundUser);
     });
 }
 
@@ -162,15 +162,17 @@ function note_Save(req, res) {
             });
             Note.findOne({title :req.body.title}, function(err, foundNote) {
                 if(foundNote === null){
+                    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhh");
                     var newNote = new Note({
                         uploader: req.body.uploader,
+                        code: req.body.code,
                         title: req.body.title,
                         text: req.body.text,
-                        ratings: []
                     });
                     newNote.save(function(err) {
                         if (err) throw err;
                     });
+                    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyy");
                 }
                 else{
                     foundNote.text = req.body.text;
@@ -259,8 +261,7 @@ function sign_Up(req, res) {
                 username: req.body.username,
                 password: req.body.password,
                 email: req.body.email,
-                admin: true,
-                courses: [],
+                admin: false,
                 notes:[]
             });
 
@@ -408,7 +409,7 @@ function log_Out(req, res) {
     return res.json({});
 }
 
-function get_Current_User(req, res){
+function get_Current_User_Name(req, res){
     if (req.session.name) {
         res.send(req.session.name);
     }
