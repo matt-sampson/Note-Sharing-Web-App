@@ -21,7 +21,6 @@ var userSchema = new Schema(
         admin: {
             type: Boolean, required: true
         },
-        courses: [String],
         notes: [
             {
                 code: {type: String, required: true},
