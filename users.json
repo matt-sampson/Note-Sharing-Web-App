@@ -4,10 +4,9 @@
 		"password" : "pass1",
 		"email" : "test1@four.com",
 		"admin": true,
-		"courses":["1234","2222","4343"],
 		"notes": [
 			{
-				"code": "1234",
+				"code": "CSC343",
 				"title": "Title1"
 			}
 		]
@@ -17,14 +16,13 @@
 		"password" : "pass2",
 		"email" : "test2@four.com",
 		"admin": false,
-		"courses":["1234","2222","4343"],
 		"notes": [
 			{
-				"code": "2222",
+				"code": "CSC148",
 				"title": "Title2"
 			},
 			{
-				"code": "4343",
+				"code": "CSC309",
 				"title": "Title3"
 			}
 		]
@@ -34,7 +32,6 @@
 		"password" : "pass3",
 		"email" : "test3@four.com",
 		"admin": false,
-		"courses":["1234","2222","4343"],
 		"notes": []
 	}
 ]

@@ -13,13 +13,15 @@ var noteSchema = new Schema(
 		uploader: {
 			type: String, required: true
 		},
+		code: {
+			type: String, required: true
+		},
 		title: {
 			type: String, required: true, index: true, unique: true, sparse: true
 		},
 		text: {
 			type: String, required: true
-		},
-		ratings: [String]
+		}
 	},
 	{
 		collection: 'notes'

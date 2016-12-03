@@ -1,6 +1,6 @@
 [
 	{
-		"code": "1234",
+		"code": "CSC343",
 		"notes": [
 			{
 				"uploader": "testname1",
@@ -9,7 +9,7 @@
 		]
 	},
 	{
-		"code": "2222",
+		"code": "CSC148",
 		"notes": [
 			{
 				"uploader": "testname2",
@@ -18,7 +18,7 @@
 		]
 	},
 	{
-		"code": "4343",
+		"code": "CSC309",
 		"notes": [
 			{
 				"uploader": "testname2",
