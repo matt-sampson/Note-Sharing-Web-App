@@ -252,7 +252,7 @@ function sign_Up(req, res) {
                 username: req.body.username,
                 password: req.body.password,
                 email: req.body.email,
-                admin: false,
+                admin: true,
                 courses: [],
                 notes:[]
             });
@@ -260,7 +260,11 @@ function sign_Up(req, res) {
             newUser.save(function(err, new_User) {
                 if (err) throw err;
                 req.session.name = req.body.username; // logs in the user after they sign up
-                res.send(new_User);
+                if(new_User.admin){
+                    res.sendFile(__dirname + '/admin_home_page.html');
+                }else{
+                    res.sendFile(__dirname + '/user_home_page.html');
+                }
             });
         }
     });
@@ -402,7 +406,7 @@ function get_Current_User(req, res){
         res.send(req.session.name);
     }
     else {
-        res.send("failure");
+        res.send(false);
     }
 }
 
