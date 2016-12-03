@@ -49,10 +49,7 @@ app.use(expressValidator({
         },
         duplicateEmail : function(value){
             return !mailError;
-        },
-		duplicateTitle : function(value){
-			return !titleError;
-		}
+        }
     }
 }));
 
@@ -94,10 +91,7 @@ app.post('/signup', sign_Up); // Getting the value from a form input
 //app.post('/addcourse', add_Course);
 
 function note_Save(req, res) {
-    req.assert('title', 'A title is required').notEmpty();
 
-    var errorsT;
-    var mappedErrorsT;
     titleError = false;
 
     function duplicateT(Title,Uploader,callback){
@@ -107,25 +101,13 @@ function note_Save(req, res) {
                     titleError=true;
                 } 
             }
-            req.checkBody('title', 'note with that title already exists by another user').duplicateTitle();
-            errorsT = req.validationErrors();
-            mappedErrorsT = req.validationErrors(true);
             callback();
         });
     }
 
     duplicateT(req.body.title, req.body.uploader, function() {
-        if (errorsT || titleError) {
-
-            // If errors exist, send them back to the form:
-            var errorMsgsT = { 'errors': {} };
-
-            if (mappedErrorsT.title) {
-                errorMsgsT.errors.error_title = mappedErrorsT.title.msg;
-                console.log(errorMsgsT.errors.error_title);
-            }
-            
-            res.render('note.html', errorMsgsT);
+        if (titleError) {
+            res.send(false);
 
         } else {
             Course.findOne({code:req.body.code}, function(err, foundCourse) {
@@ -181,6 +163,7 @@ function note_Save(req, res) {
                     });
                 }
             });
+            res.send(true);
         }
     });
 }
