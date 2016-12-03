@@ -1,6 +1,6 @@
 var $ = jQuery;
 
-$(document).ready(function(){
+function DocumentReady(){
 	document.getElementById("note-view").readOnly = true;
 	$("#toggle_edit").toggleClass("toggled");
 	
@@ -28,17 +28,18 @@ $(document).ready(function(){
 			}
 		});
 	});
-});
 
-function toggleTextArea() {
-	var disabled = document.getElementById("note-view").readOnly;
 
-	if (disabled) {
-		document.getElementById("note-view").readOnly = false;
-		$("#toggle_edit").text("Read Only");
-	}
-	else {
-		document.getElementById("note-view").readOnly = true;
-		$("#toggle_edit").text("Edit");
+	function toggleTextArea() {
+		var disabled = document.getElementById("note-view").readOnly;
+		if (disabled) {
+			document.getElementById("note-view").readOnly = false;
+			$("#toggle_edit").text("Read Only");
+		}
+		else {
+			document.getElementById("note-view").readOnly = true;
+			$("#toggle_edit").text("Edit");
+		}
 	}
 }
+$(document).ready(DocumentReady);
