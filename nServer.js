@@ -94,10 +94,17 @@ app.get('/notes', all_Notes);
 //app.get('/user/:username', find_User);
 app.post('/login', log_In);
 app.get('/current', get_Current_User);
+app.get('/isadmin', current_User_Admin);
 app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 //app.post('/addcourse', add_Course);
+
+function current_User_Admin(req,res){
+    User.findOne({username:req.session.name}, function(err,foundUser){
+        res.send(foundUser.admin);
+    });
+}
 
 function note_Save(req, res) {
 

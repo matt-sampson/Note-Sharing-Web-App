@@ -34,6 +34,21 @@ function DocumentReady(){
 		});
 	});
 
+	$('.homePage').click(function(){
+		$.ajax({
+			url : "/isadmin",
+			method: "GET",
+			success : function(data){
+				if (data){
+					location.replace("http://localhost:3000/admin_home_page.html");
+				}
+				else{
+					location.replace("http://localhost:3000/user_home_page.html");
+				}
+			}
+		});
+	});
+
 	$('#save').click(function(){
 		var note = {
 			"uploader" : $('#author').text(),
