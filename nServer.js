@@ -85,7 +85,7 @@ app.get('/', function(req, res) {
     res.render('indextest', {errors : ''});
 });
 app.get('/note', function(req, res) {
-    res.sendFile( __dirname + '/note.html');
+    res.render('note', {errors : ''});
 });
 app.get('/courses', all_Courses);
 app.get('/users', all_Users);
