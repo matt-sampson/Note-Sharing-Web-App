@@ -2,15 +2,30 @@ var $ = jQuery;
 
 function DocumentReady(){
 
-	setAuthor();
+	setData();
 
-	function  setAuthor(){
+	function  setData(){
+
 		$.ajax({
-			url : "/current",
+			url : "/currentTitle",
 			method: "GET",
-			success : function(data){
-				if(data!==false){
-					$("#author").text(data);
+			success : function(foundNote){
+				if(foundNote!==false){
+					$("#author").text(foundNote.uploader);
+					$('#title').val(foundNote.title);
+					$('#note-view').val(foundNote.text);
+					$('#course').val(foundNote.code);
+				}
+				else{
+					$.ajax({
+						url : "/current",
+						method: "GET",
+						success : function(currentUser){
+							if(currentUser!==false){
+								$("#author").text(currentUser);
+							}
+						}
+					});
 				}
 			}
 		});
@@ -54,7 +69,7 @@ function DocumentReady(){
 			"uploader" : $('#author').text(),
 			"title" : $('#title').val(),
 			"text" : $('#note-view').val(),
-			"code": $('#course').text()
+			"code": $('#course').val()
 		};
 
 		$.ajax({
@@ -62,8 +77,10 @@ function DocumentReady(){
 			data : note,
 			method: "POST",
 			success : function(data){
-				if (data === false){
+				if (data === "0"){
 					alert("note with that title already exists by another user");
+				}else if (data === "1"){
+					alert("That course doesn't exist, beware of case sensitivity");
 				}else{
 					alert("changes have been saved");
 				}
