@@ -20,7 +20,7 @@ var noteSchema = new Schema(
 			type: String, required: true, index: true, unique: true, sparse: true
 		},
 		text: {
-			type: String, required: true
+			type: String,
 		}
 	},
 	{

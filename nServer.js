@@ -62,25 +62,6 @@ app.use(expressValidator({
     }
 }));
 
-// Sample data 
-/*var users = [
-    {
-        username : 'asa',
-        password : 'sswd',
-        email : 'some@rand.com'
-    },
-    {
-        username : 'asaassa',
-        password : 'sswqwdqwq1212',
-        email : 'someq22@rand.com'
-    },
-    {
-        username : 'asdsdswwwa',
-        password : '1212sasdqw',
-        email : 'some44@rand.com'
-    }
-];*/
-
 app.get('/', function(req, res) {
     //res.sendFile(__dirname + '/index.html');
     res.render('indextest', {errors : ''});
@@ -107,17 +88,32 @@ app.get('/course_info', function(req, res) {
 app.get('/courses', all_Courses);
 app.get('/users', all_Users);
 app.get('/notes', all_Notes);
-app.post('/login', log_In);
 app.get('/current', get_Current_User_Name);
 app.get('/currentDoc', current_User_Doc);
 app.get('/currentCode', current_Code);
 app.get('/currentTitle', current_Title);
 app.get('/logout', log_Out);
+app.post('/login', log_In);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 app.post('/addACourse', add_Course);
-app.post('/removeCourse',remove_Course);
 app.post('/searchCourse',search_Course);
+app.post('/addAdmin', add_Admin);
+
+function add_Admin(req, res) {
+    User.findOne({username:req.body.username},function(err,foundUser){
+        if(foundUser===null){
+            res.send(false);
+        }
+        else{
+            foundUser.admin = true;
+            foundUser.save(function(err) {
+                if (err) throw err;
+            });
+            res.send(true);
+        }
+    });
+}
 
 function search_Course(req, res) {
     Course.findOne({code:req.body.code},function(err,foundCourse){
@@ -128,28 +124,6 @@ function search_Course(req, res) {
             res.send(foundCourse.code);
         }
     });
-}
-
-function remove_Course(req, res) {
-    /*Course.findOne({code:req.body.code},function(err,foundCourse){
-        if(foundCourse===null){
-            res.send(false);
-        }
-        else{
-            Course.remove({code:req.body.code});
-            var run = true;
-            while(run){
-                Note.findOne({code: req.body.code}, function(err, foundNote){
-                    if(foundNote == null){run = false;}
-                    else{
-                        Note.remove({code: req.body.code});
-                    }
-                });
-            }
-            res.send(true);
-        }
-    });*/
-    res.send(false);
 }
 
 function add_Course(req, res) {
@@ -259,6 +233,11 @@ function note_Save(req, res) {
             });
             Note.findOne({title :req.body.title}, function(err, foundNote) {
                 if(foundNote === null){
+                    console.log(req.body.uploader);
+                    console.log(req.body.code);
+                    console.log(req.body.title);
+                    console.log(req.body.text);
+
                     var newNote = new Note({
                         uploader: req.body.uploader,
                         code: req.body.code,
