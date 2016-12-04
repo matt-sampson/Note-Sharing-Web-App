@@ -72,6 +72,9 @@ app.get('/note', function(req, res) {
     if(req.query.title){
         req.session.title=req.query.title;
     }
+    else{
+        req.session.title=null;
+    }
     res.render('note');
 });
 
