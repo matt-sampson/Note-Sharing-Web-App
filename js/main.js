@@ -48,31 +48,33 @@ function DocumentReady(){
 					}
 					else{
 						alert("course has been added");
+						showCourses();
 					}
 				}
 			});
 		}
 	});
 
-	$('.removeCourse').click(function(){
-		code = String(prompt("Enter a course code to remove", ""));
-		if(code.length===0 || code === null){
-			alert("Courses must have names");
+	$('.addAdmin').click(function(){
+		username = String(prompt("Enter a username", ""));
+		if(username.length===0 || username === null){
+			alert("Usernames cant be empty");
 		}else{
-			var course = {
-				"code" : code
+			var user = {
+				"username" : username
 			};
 
 			$.ajax({
-				url : "/removeCourse",
-				data : course,
+				url : "/addAdmin",
+				data : user,
 				method: "POST",
 				success : function(response){
 					if(response===false){
-						alert("that course doesnt exists");
+						alert("that user doesn't exist");
 					}
 					else{
-						alert("course has been removed");
+						console.log("here88");
+						alert(username + " is now an admin");
 					}
 				}
 			});
