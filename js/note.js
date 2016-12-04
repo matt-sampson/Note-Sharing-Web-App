@@ -31,7 +31,8 @@ function DocumentReady(){
 		});
 	}
 
-	document.getElementById("note-view").readOnly = true;
+	document.getElementById("note-view").readOnly = false;
+	$("#toggle_edit").text("Read Only");
 	$("#toggle_edit").toggleClass("toggled");
 	
 	$("#toggle_edit").click(function() {
