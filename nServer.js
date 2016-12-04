@@ -116,6 +116,29 @@ app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 app.post('/addACourse', add_Course);
+app.post('/removeCourse',remove_Course);
+
+function remove_Course(req, res) {
+    /*Course.findOne({code:req.body.code},function(err,foundCourse){
+        if(foundCourse===null){
+            res.send(false);
+        }
+        else{
+            Course.remove({code:req.body.code});
+            var run = true;
+            while(run){
+                Note.findOne({code: req.body.code}, function(err, foundNote){
+                    if(foundNote == null){run = false;}
+                    else{
+                        Note.remove({code: req.body.code});
+                    }
+                });
+            }
+            res.send(true);
+        }
+    });*/
+    res.send(false);
+}
 
 function add_Course(req, res) {
     Course.findOne({code:req.body.code},function(err,foundCourse){
