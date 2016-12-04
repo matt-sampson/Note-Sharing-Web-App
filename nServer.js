@@ -26,21 +26,21 @@ app.engine('.html', require('ejs').__express);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
-var nameError = false;
-var mailError = false;
-var titleError = false;
-var courseError = false;
-var passmatch = true;
-var userExist = true;
+var nameError = false; // for if a user is trying to sign up with a taken username
+var mailError = false; // for if a user is trying to sign up with a taken email
+var titleError = false; // for if a user is trying to name a note with an already taken note title
+var courseError = false; //for if a user trys to give a note an invalid course name
+var passmatch = true; // for when a user enters a username and password and then checks to see if they are in the database and they match
+var userExist = true; // for when a user tries to log in with a username not in the database
 
 app.use(expressValidator({
     customValidators: {
         
         isUserName: function(value) {
-            return value.search( /[A-Za-z0-9]+/ ) !== -1;
+            return value.search( /[A-Za-z0-9]+/ ) !== -1; //usernames are letters or numbers
         },
         isPassword: function(value) {
-            return value.search(/[A-Za-z0-9]+/) !== -1;
+            return value.search(/[A-Za-z0-9]+/) !== -1; //passwords are letters or numbers
             //(\()?(\d{3})(\))?(-)?(\d{3})(-)?(\d{4})
         },
         isEmail: function(value) {
@@ -63,7 +63,6 @@ app.use(expressValidator({
 }));
 
 app.get('/', function(req, res) {
-    //res.sendFile(__dirname + '/index.html');
     res.render('indextest', {errors : ''});
 });
 app.get('/note', function(req, res) {
@@ -85,20 +84,20 @@ app.get('/course_info', function(req, res) {
     res.render('course_info');
 });
 
-app.get('/courses', all_Courses);
-app.get('/users', all_Users);
-app.get('/notes', all_Notes);
-app.get('/current', get_Current_User_Name);
-app.get('/currentDoc', current_User_Doc);
-app.get('/currentCode', current_Code);
-app.get('/currentTitle', current_Title);
-app.get('/logout', log_Out);
-app.post('/login', log_In);
-app.post('/notesave', note_Save);
-app.post('/signup', sign_Up); // Getting the value from a form input
-app.post('/addACourse', add_Course);
-app.post('/searchCourse',search_Course);
-app.post('/addAdmin', add_Admin);
+app.get('/courses', all_Courses); // returns all courses information when typed into browser
+app.get('/users', all_Users); // returns all users information when typed into browser
+app.get('/notes', all_Notes); // returns all notes information when typed into browser
+app.get('/current', get_Current_User_Name); // get the username of the logged in user
+app.get('/currentDoc', current_User_Doc); // get the document of the logged in user
+app.get('/currentCode', current_Code); // get the course code stored in a session variable for course information page
+app.get('/currentTitle', current_Title); // get the note title stored in a session variable for the note viewing page
+app.get('/logout', log_Out); // log out the current user
+app.post('/login', log_In); //  log a user into the website
+app.post('/notesave', note_Save); // save a note to the database
+app.post('/signup', sign_Up); // sign the user up for the website
+app.post('/addACourse', add_Course); // add a course to the database (admin only)
+app.post('/searchCourse',search_Course); // search for a given course
+app.post('/addAdmin', add_Admin); // make another user an admin (admin only)
 
 function add_Admin(req, res) {
     User.findOne({username:req.body.username},function(err,foundUser){
@@ -233,11 +232,6 @@ function note_Save(req, res) {
             });
             Note.findOne({title :req.body.title}, function(err, foundNote) {
                 if(foundNote === null){
-                    console.log(req.body.uploader);
-                    console.log(req.body.code);
-                    console.log(req.body.title);
-                    console.log(req.body.text);
-
                     var newNote = new Note({
                         uploader: req.body.uploader,
                         code: req.body.code,
