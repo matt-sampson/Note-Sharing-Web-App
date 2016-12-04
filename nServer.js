@@ -91,6 +91,12 @@ app.get('/note', function(req, res) {
     }
     res.render('note');
 });
+app.get('/course_info', function(req, res) {
+    if(req.query.code){
+        req.session.code=req.query.code;
+    }
+    res.render('course_info');
+});
 
 app.get('/courses', all_Courses);
 app.get('/users', all_Users);
@@ -98,6 +104,7 @@ app.get('/notes', all_Notes);
 app.post('/login', log_In);
 app.get('/current', get_Current_User_Name);
 app.get('/currentDoc', current_User_Doc);
+app.get('/currentCode', current_Code);
 app.get('/currentTitle', current_Title);
 app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
@@ -133,6 +140,12 @@ function add_Course(req, res) {
         else{
             res.send(false);
         }
+    });
+}
+
+function current_Code(req,res){
+    Course.findOne({code:req.session.code}, function(err,foundCourse){
+        res.send(foundCourse);
     });
 }
 
