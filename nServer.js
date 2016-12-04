@@ -44,7 +44,7 @@ app.use(expressValidator({
             //(\()?(\d{3})(\))?(-)?(\d{3})(-)?(\d{4})
         },
         isEmail: function(value) {
-            return value.search( /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/ ) !== -1;
+            return value.search( /^[A-Za-z0-9]+@[A-Za-z0-9]+\.com$/ ) !== -1; //emails end with .com
         },
         duplicateUsername : function(value){
             return !nameError;
@@ -62,21 +62,28 @@ app.use(expressValidator({
     }
 }));
 
+//render the login screen without error messages
 app.get('/', function(req, res) {
     res.render('indextest', {errors : ''});
 });
+
+//render a note page and store which note title they clicked on in a session variable
 app.get('/note', function(req, res) {
     if(req.query.title){
         req.session.title=req.query.title;
     }
     res.render('note');
 });
+
+//render an uneditable note page and store which note title they clicked on in a session variable
 app.get('/noteNoEdit', function(req, res) {
     if(req.query.title){
         req.session.title=req.query.title;
     }
     res.render('noteNoEdit');
 });
+
+//render a course page and store which course code they clicked on in a session variable
 app.get('/course_info', function(req, res) {
     if(req.query.code){
         req.session.code=req.query.code;
@@ -99,8 +106,9 @@ app.post('/addACourse', add_Course); // add a course to the database (admin only
 app.post('/searchCourse',search_Course); // search for a given course
 app.post('/addAdmin', add_Admin); // make another user an admin (admin only)
 
-function add_Admin(req, res) {
-    User.findOne({username:req.body.username},function(err,foundUser){
+//search for user with givn username and then make their 'admin' attribute true
+function add_Admin(req, res) { 
+    User.findOne({username:req.body.username},function(err,foundUser){ 
         if(foundUser===null){
             res.send(false);
         }
@@ -114,6 +122,7 @@ function add_Admin(req, res) {
     });
 }
 
+//seacrh for a course and then return its code
 function search_Course(req, res) {
     Course.findOne({code:req.body.code},function(err,foundCourse){
         if(foundCourse===null){
@@ -125,6 +134,7 @@ function search_Course(req, res) {
     });
 }
 
+//add a course based on given code, and with notes array initially empty
 function add_Course(req, res) {
     Course.findOne({code:req.body.code},function(err,foundCourse){
         if(foundCourse===null){
@@ -144,18 +154,21 @@ function add_Course(req, res) {
     });
 }
 
+//based of the session variable for code send a course document
 function current_Code(req,res){
     Course.findOne({code:req.session.code}, function(err,foundCourse){
         res.send(foundCourse);
     });
 }
 
+//based of the session variable for username send a user document
 function current_User_Doc(req,res){
     User.findOne({username:req.session.name}, function(err,foundUser){
         res.send(foundUser);
     });
 }
 
+//based of the session variable for title send a note document
 function current_Title(req,res){
     Note.findOne({title:req.session.title}, function(err,foundNote){
         if(foundNote !== null){
@@ -167,11 +180,15 @@ function current_Title(req,res){
     });
 }
 
+
+
 function note_Save(req, res) {
 
     titleError = false;
     courseError = false;
 
+
+    //check the database to see if a note by that title already exists and then check to see if the course is valid
     function noteCheck(Title,Uploader,Code,callback){
         Note.findOne({title:Title}, function(err, foundNote) {
             if (foundNote!==null){
@@ -196,6 +213,7 @@ function note_Save(req, res) {
             res.send("1");
         }
         else {
+            //if the note have a valid title,text, course code, and uploader then update all three databases with the new note
             Course.findOne({code:req.body.code}, function(err, foundCourse) {
                 Course.findOne({"notes.title":req.body.title}, function(err, foundNote) {
                     if(foundNote===null){
@@ -266,22 +284,18 @@ function sign_Up(req, res) {
 
     req.checkBody('username','Username not formatted properly.').isUserName();
 
-    // Checking phone number:
     req.checkBody('password', 'Password not formatted properly.').isPassword();
 
-    // Checking birthday:
-    req.checkBody('email', 'Email not formatted properly.').isEmail();
+    req.checkBody('email', 'Follow the format: foo@bar.com').isEmail();
 
-    // Checking for errors and mapping them:
     var errors;
-    
-    //console.log(errors);
 
     var mappedErrors;
 
     nameError = false;
     mailError = false;
 
+    //check to see if the user is trying to sign up with a taken username or email
     function duplicate(name,mail,callback){
         User.findOne({username: name}, function(err, foundUser) {
             if (foundUser!==null){
@@ -300,6 +314,7 @@ function sign_Up(req, res) {
         });
     }
 
+    //use a callback function because mongo functions are asynchronous
     duplicate(req.body.username, req.body.email, function() {
         if (errors || mailError || nameError) {
 
@@ -326,6 +341,7 @@ function sign_Up(req, res) {
 
 
         } else {
+            //add the new user if there were no errors
             var newUser = new User({
                 username: req.body.username,
                 password: req.body.password,
@@ -347,6 +363,7 @@ function sign_Up(req, res) {
     });
 }
 
+//return all the courses in json format
 function all_Courses(req, res) {
     Course.find({}, function(err, allCourses) {
         if (err) throw err;
@@ -354,6 +371,7 @@ function all_Courses(req, res) {
     });
 }
 
+//return all the users in json format
 function all_Users(req, res) {
     User.find({}, function(err, allUsers) {
         if (err) throw err;
@@ -361,6 +379,7 @@ function all_Users(req, res) {
     });
 }
 
+//return all the notes in json format
 function all_Notes(req, res) {
     Note.find({}, function(err, allNotes) {
         if (err) throw err;
@@ -378,13 +397,15 @@ function log_In(req, res) {
     req.checkBody('username','Username not formatted properly.').isUserName();
     req.checkBody('password', 'Password not formatted properly.').isPassword();
 
+    //search the database to see if the given username has a matching password
     User.findOne({username: req.body.username}, function(err, User) {
         if(User !== null){
             if (err) throw err;
             if(User.password==req.body.password){
                 req.session.name = req.body.username;
                 loginFail=false;
-                if(User.admin){
+                //send them a different home page based on whether or not they are an admin
+                if(User.admin){  
                     res.sendFile(__dirname + '/admin_home_page.html');
                 }else{
                     res.sendFile(__dirname + '/user_home_page.html');
@@ -399,6 +420,7 @@ function log_In(req, res) {
             userExist = false;
             req.checkBody('username', 'Username not in database' ).userCheck();
         }
+        // if the username and password didnt match then render the login screen with the error messages
         if(loginFail){
             var errors = req.validationErrors();
             var mappedErrors = req.validationErrors(true);
@@ -419,11 +441,13 @@ function log_In(req, res) {
     });
 }
 
+//log a user out
 function log_Out(req, res) {
     req.session = null;
     return res.json({});
 }
 
+//get the logged in username
 function get_Current_User_Name(req, res){
     if (req.session.name) {
         res.send(req.session.name);

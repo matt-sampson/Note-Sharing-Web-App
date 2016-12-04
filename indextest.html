@@ -19,7 +19,7 @@
        <div class="form_element">
                 <label id="usernameField">
                     <span class="label">Username: </span>
-                    <input type = "text" name="username" pattern = "[A-Za-z0-9]+" placeholder="someUsernameofLettersAndN4mbers"><br>
+                    <input type = "text" name="username" pattern = "[A-Za-z0-9]+" placeholder="someUsernameofLettersAndN4mbers" required><br>
 
                     <span class="error" visibility = "hidden"><%- errors.error_username %></span>
                 </label>
@@ -28,7 +28,7 @@
           <div class="form_element">
                 <label id="passwordField">
                     <span class="label">Password: </span>
-                    <input type = "password" name="password" pattern = "[A-Za-z0-9]+" placeholder="somePasswordofLettersAndN4mbers"><br>
+                    <input type = "password" name="password" pattern = "[A-Za-z0-9]+" placeholder="somePasswordofLettersAndN4mbers" required><br>
 
                     <span class="error"><%- errors.error_password %></span>
                 </label>
@@ -37,7 +37,7 @@
           <div class="form_element">
                 <label id="emailField">
                     <span class="label">Email: </span>
-                    <input type = "text" name="email" pattern = "[A-Za-z0-9]+@[A-Za-z0-9.]+\.com" placeholder="something@random.com"><br>
+                    <input type = "text" name="email" pattern = "[A-Za-z0-9]+" placeholder="foo@bar.com" required><br>
 
                     <span class="error"><%- errors.error_email %></span>
                 </label>
@@ -48,9 +48,9 @@
     <form class="login-form" action = "/login" method="post">
       <div class="Header"><h1>Sign in to NoteHub!</h1></div>
 
-      <div class="form_element"><label id = "usernameField"><input type="text" name = "username" placeholder="username"/></label></div>
+      <div class="form_element"><label id = "usernameField"><input type="text" name = "username" placeholder="username" required/></label></div>
 
-      <div class = "form_element"><label id = "passwordField"><input type="password" name = "password" placeholder="password"/></label></div>
+      <div class = "form_element"><label id = "passwordField"><input type="password" name = "password" placeholder="password" required/></label></div>
 
       <span class="error"><%- errors.error_login %></span>
 
