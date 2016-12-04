@@ -56,6 +56,10 @@ h1{
 	text-align: right;
 }
 
+h1#course {
+	color: #222222;
+}
+
 #content{
    	width:60%;
 	margin: auto;
