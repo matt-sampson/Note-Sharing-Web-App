@@ -3,6 +3,50 @@ var $ = jQuery;
 function DocumentReady(){
 
 	
+	$('.addCourse').click(function(){
+		code = String(prompt("Enter a course code to add", ""));
+
+		var course = {
+			"code" : code
+		};
+
+		$.ajax({
+			url : "/addACourse",
+			data : course,
+			method: "POST",
+			success : function(response){
+				if(response===false){
+					alert("that course already exists");
+				}
+				else{
+					alert("course has been added");
+				}
+			}
+		});
+	});
+
+	$('.removeCourse').click(function(){
+		code = String(prompt("Enter a course code to remove", ""));
+
+		var course = {
+			"code" : code
+		};
+
+		$.ajax({
+			url : "/removeACourse",
+			data : course,
+			method: "POST",
+			success : function(response){
+				if(response===false){
+					alert("that course doesn't exist");
+				}
+				else{
+					alert("course has been removed");
+				}
+			}
+		});
+	});
+
 	$('.allCourses').click(function(){
 		$.ajax({
 			url : "/courses",

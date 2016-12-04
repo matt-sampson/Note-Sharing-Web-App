@@ -95,8 +95,6 @@ app.get('/note', function(req, res) {
 app.get('/courses', all_Courses);
 app.get('/users', all_Users);
 app.get('/notes', all_Notes);
-//app.get('/course/:code', find_Course);
-//app.get('/user/:username', find_User);
 app.post('/login', log_In);
 app.get('/current', get_Current_User_Name);
 app.get('/currentDoc', current_User_Doc);
@@ -104,7 +102,39 @@ app.get('/currentTitle', current_Title);
 app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
-//app.post('/addcourse', add_Course);
+app.post('/addACourse', add_Course);
+app.post('/removeACourse', remove_Course);
+
+function remove_Course(req, res) {
+    Course.findOne({code:req.body.code},function(err,foundCourse){
+        if(foundCourse===null){
+            res.send(false);
+        }
+        else{
+            Course.remove({code:req.body.code});
+            res.send(true);
+        }
+    });
+}
+
+function add_Course(req, res) {
+    Course.findOne({code:req.body.code},function(err,foundCourse){
+        if(foundCourse===null){
+            var newCourse = new Course({
+                    code: req.body.code,
+                    notes:[]
+            });
+
+            newCourse.save(function(err, newCourse) {
+                if (err) throw err;
+                res.send(true);
+            });
+        }
+        else{
+            res.send(false);
+        }
+    });
+}
 
 function current_User_Doc(req,res){
     User.findOne({username:req.session.name}, function(err,foundUser){
@@ -310,14 +340,6 @@ function all_Courses(req, res) {
     });
 }
 
-/*function find_Course(req, res) {
-    var code = req.params.code;
-    Course.find({code: code}, function(err, Course) {
-        if (err) throw err;
-        res.send(Course);
-    });
-}*/
-
 function all_Users(req, res) {
     User.find({}, function(err, allUsers) {
         if (err) throw err;
@@ -332,52 +354,6 @@ function all_Notes(req, res) {
     });
 }
 
-/*function find_User(req, res) {
-    var username = req.params.username;
-    User.find({username: username}, function(err, foundUser) {
-        if (err) throw err;
-        res.send(foundUser);
-    });
-}
-
-function add_Course(req, res) {
-    var newCourse = new Course(req.body);
-
-    newCourse.save(function(err, newUser) {
-        if (err) throw err;
-        res.send('Success');
-    });
-}
-
-function addTestUser(){
-    var newUser = new User({
-        username: "joeltest7",
-        password: "here",
-        courses: ["1234","4343"],
-        notes:[
-            {
-                code:"1234",
-                title: "test2"
-            }
-        ]
-    });
-    
-    newUser.save(function(err, newUser) {
-        if (err) throw err;
-    });
-}
-
-function addTestCourse(){
-    var newCourse = new Course({
-        code: "2348",
-        notes: []
-    });
-    
-    newCourse.save(function(err, newCourse) {
-        if (err) throw err;
-    });
-}
-*/
 function log_In(req, res) {
     passmatch = true;
     userExist = true;
