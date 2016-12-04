@@ -117,6 +117,18 @@ app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 app.post('/addACourse', add_Course);
 app.post('/removeCourse',remove_Course);
+app.post('/searchCourse',search_Course);
+
+function search_Course(req, res) {
+    Course.findOne({code:req.body.code},function(err,foundCourse){
+        if(foundCourse===null){
+            res.send(false);
+        }
+        else{
+            res.send(foundCourse.code);
+        }
+    });
+}
 
 function remove_Course(req, res) {
     /*Course.findOne({code:req.body.code},function(err,foundCourse){

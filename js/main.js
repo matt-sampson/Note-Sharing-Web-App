@@ -4,6 +4,31 @@ function DocumentReady(){
 
 	showCourses();
 
+	$('.searchCourses').click(function(){
+		code = String(prompt("Search a course code", ""));
+		if(code.length===0 || code === null){
+			alert("Courses must have names");
+		}else{
+			var course = {
+				"code" : code
+			};
+
+			$.ajax({
+				url : "/searchCourse",
+				data : course,
+				method: "POST",
+				success : function(response){
+					if(response===false){
+						alert("that course doesn't exist");
+					}
+					else{
+						location.replace("http://localhost:3000/course_info?code="+response);
+					}
+				}
+			});
+		}
+	});
+
 	$('.addCourse').click(function(){
 		code = String(prompt("Enter a course code to add", ""));
 		if(code.length===0 || code === null){
