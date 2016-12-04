@@ -29,6 +29,31 @@ function DocumentReady(){
 		}
 	});
 
+	$('.removeCourse').click(function(){
+		code = String(prompt("Enter a course code to remove", ""));
+		if(code.length===0 || code === null){
+			alert("Courses must have names");
+		}else{
+			var course = {
+				"code" : code
+			};
+
+			$.ajax({
+				url : "/removeCourse",
+				data : course,
+				method: "POST",
+				success : function(response){
+					if(response===false){
+						alert("that course doesnt exists");
+					}
+					else{
+						alert("course has been removed");
+					}
+				}
+			});
+		}
+	});
+
 	$('.allCourses').click(function(){
 		showCourses();
 	});
