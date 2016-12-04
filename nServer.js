@@ -91,6 +91,12 @@ app.get('/note', function(req, res) {
     }
     res.render('note');
 });
+app.get('/noteNoEdit', function(req, res) {
+    if(req.query.title){
+        req.session.title=req.query.title;
+    }
+    res.render('noteNoEdit');
+});
 app.get('/course_info', function(req, res) {
     if(req.query.code){
         req.session.code=req.query.code;
@@ -110,19 +116,6 @@ app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
 app.post('/addACourse', add_Course);
-app.post('/removeACourse', remove_Course);
-
-function remove_Course(req, res) {
-    Course.findOne({code:req.body.code},function(err,foundCourse){
-        if(foundCourse===null){
-            res.send(false);
-        }
-        else{
-            Course.remove({code:req.body.code});
-            res.send(true);
-        }
-    });
-}
 
 function add_Course(req, res) {
     Course.findOne({code:req.body.code},function(err,foundCourse){
