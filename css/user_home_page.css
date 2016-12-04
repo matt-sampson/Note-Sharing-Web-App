@@ -9,6 +9,7 @@ left: 0px;
 margin:0 auto;
 padding:20px 0;
 background:#3D3331;
+margin-bottom: 20px;
 }
 
 ul#nav {
@@ -56,30 +57,33 @@ h1{
 }
 
 #content{
-	
-	height: 100%;
-	width: 100%;
+   	width:60%;
+	margin: auto;
+	display: block;
+	text-align: center;
+	border: 1px solid #000000;
+	display: table;
+	background-color: #FFFFFF;
 
-	display:flex;
-	justify-content: center;
-	margin:0px;
-   vertical-align: top;
+	
 
    
 }
 
-ul#linkTable{
-	margin: 20px;
-	background: white;
-	text-align: center;
-	height: 60%;
-	width: 60%;
-	list-style: none;
-	text-decoration: underline;
-	color: blue;
+ul#linkTable {
+	list-style-type: none;
 }
 
-ul#linkTable li a:hover{
-	cursor : pointer;
-	color: #008ae6;
+ul#linkTable li {
+	margin: 2px;
+	font-size: 40px;
+}
+
+ul#linkTable li a {
+	color: #2D9434;
+	text-decoration: none;
+}
+
+ ul#linkTable a:hover {
+	text-decoration: underline;
 }

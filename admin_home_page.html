@@ -31,4 +31,37 @@
 </div>
 
 </body>
+<script>
+$(document).ready(function() {
+	$.ajax({
+		url : "/courses",
+		method: "GET",
+		success : function(data){
+			var tableData= [];
+			for(i=0; i<data.length; i++){
+				tableData.push(data[i].code);
+			}
+			createTable(tableData, true);
+		}
+	});
+
+	function createTable(tableData,noteOrCourse){
+		var linkList = document.getElementById("linkTable");
+		$(linkTable).empty();
+		for(j=0; j<tableData.length; j++){
+			var li = document.createElement("li");
+			var a = document.createElement('a');
+			if (noteOrCourse){
+				//a.setAttribute('href', "http://localhost:3000/note");
+			}
+			else{
+				a.setAttribute('href', "http://localhost:3000/note?title="+tableData[j]);
+			}
+			a.innerHTML = tableData[j];
+			li.appendChild(a);
+			linkList.appendChild(li);
+		}
+	}
+});
+</script>
 </html>
