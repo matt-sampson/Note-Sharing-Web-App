@@ -90,27 +90,34 @@ function DocumentReady(){
 	});
 
 	$('#save').click(function(){
-		var note = {
-			"uploader" : $('#author').text(),
-			"title" : $('#title').val(),
-			"text" : $('#note-view').val(),
-			"code": $('#course').val()
-		};
 
-		$.ajax({
-			url : "/notesave",
-			data : note,
-			method: "POST",
-			success : function(data){
-				if (data === "0"){
-					alert("note with that title already exists by another user");
-				}else if (data === "1"){
-					alert("That course doesn't exist, beware of case sensitivity");
-				}else{
-					alert("changes have been saved");
+		var title =$('#title').val();
+
+		if(title.length===0 || title === null || title === ""){
+			alert("Notes must have titles");
+		}else{
+			var note = {
+				"uploader" : $('#author').text(),
+				"title" : title,
+				"text" : $('#note-view').val(),
+				"code": $('#course').val()
+			};
+
+			$.ajax({
+				url : "/notesave",
+				data : note,
+				method: "POST",
+				success : function(data){
+					if (data === "0"){
+						alert("note with that title already exists by another user");
+					}else if (data === "1"){
+						alert("That course doesn't exist, beware of case sensitivity");
+					}else{
+						alert("changes have been saved");
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 
 
