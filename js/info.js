@@ -51,8 +51,8 @@ function DocumentReady(){
 	});
 
 	$('.searchCourses').click(function(){
-		code = String(prompt("Search a course code", ""));
-		if(code.length===0 || code === null){
+		code = prompt("Search a course code", "");
+		if(code.length===0 || code === null || code === ""){
 			alert("Courses must have names");
 		}else{
 			var course = {

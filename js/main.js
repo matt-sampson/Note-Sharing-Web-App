@@ -5,8 +5,8 @@ function DocumentReady(){
 	showCourses();
 
 	$('.searchCourses').click(function(){
-		code = String(prompt("Search a course code", ""));
-		if(code.length===0 || code === null){
+		code = prompt("Search a course code", "");
+		if(code.length===0 || code === null || code === ""){
 			alert("Courses must have names");
 		}else{
 			var course = {
@@ -30,8 +30,8 @@ function DocumentReady(){
 	});
 
 	$('.addCourse').click(function(){
-		code = String(prompt("Enter a course code to add", ""));
-		if(code.length===0 || code === null){
+		code = prompt("Enter a course code to add", "");
+		if(code.length===0 || code === null || code === ""){
 			alert("Courses must have names");
 		}else{
 			var course = {
@@ -56,8 +56,8 @@ function DocumentReady(){
 	});
 
 	$('.addAdmin').click(function(){
-		username = String(prompt("Enter a username", ""));
-		if(username.length===0 || username === null){
+		username = prompt("Enter a username", "");
+		if(username.length===0 || username === null || username === ""){
 			alert("Usernames cant be empty");
 		}else{
 			var user = {
