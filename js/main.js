@@ -2,7 +2,8 @@ var $ = jQuery;
 
 function DocumentReady(){
 
-	
+	showCourses();
+
 	$('.addCourse').click(function(){
 		code = String(prompt("Enter a course code to add", ""));
 
@@ -47,7 +48,9 @@ function DocumentReady(){
 		});
 	});
 
-	$('.allCourses').click(function(){
+	$('.allCourses').click(showCourses());
+
+	function showCourses(){
 		$.ajax({
 			url : "/courses",
 			method: "GET",
@@ -59,7 +62,7 @@ function DocumentReady(){
 				createTable(tableData, true);
 			}
 		});
-	});
+	}
 
 	$('.myNotes').click(function(){
 		$.ajax({
@@ -96,7 +99,7 @@ function DocumentReady(){
 			var li = document.createElement("li");
 			var a = document.createElement('a');
 			if (noteOrCourse){
-				//a.setAttribute('href', "http://localhost:3000/note");
+				a.setAttribute('href', "http://localhost:3000/course_info?code="+tableData[j]);
 			}
 			else{
 				a.setAttribute('href', "http://localhost:3000/note?title="+tableData[j]);
