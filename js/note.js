@@ -11,22 +11,20 @@ function DocumentReady(){
 			method: "GET",
 			success : function(foundNote){
 				if(foundNote!==false){
-					$("#author").text(foundNote.uploader);
 					$('#title').val(foundNote.title);
 					$('#note-view').val(foundNote.text);
 					$('#course').val(foundNote.code);
 				}
-				else{
-					$.ajax({
-						url : "/current",
-						method: "GET",
-						success : function(currentUser){
-							if(currentUser!==false){
+				$.ajax({
+					url : "/current",
+					method: "GET",
+					success : function(currentUser){
+						if(currentUser!==false){
 								$("#author").text(currentUser);
-							}
 						}
-					});
-				}
+					}
+				});
+				
 			}
 		});
 	}
