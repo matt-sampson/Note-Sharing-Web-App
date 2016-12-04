@@ -6,49 +6,32 @@ function DocumentReady(){
 
 	$('.addCourse').click(function(){
 		code = String(prompt("Enter a course code to add", ""));
+		if(code.length===0 || code === null){
+			alert("Courses must have names");
+		}else{
+			var course = {
+				"code" : code
+			};
 
-		var course = {
-			"code" : code
-		};
-
-		$.ajax({
-			url : "/addACourse",
-			data : course,
-			method: "POST",
-			success : function(response){
-				if(response===false){
-					alert("that course already exists");
+			$.ajax({
+				url : "/addACourse",
+				data : course,
+				method: "POST",
+				success : function(response){
+					if(response===false){
+						alert("that course already exists");
+					}
+					else{
+						alert("course has been added");
+					}
 				}
-				else{
-					alert("course has been added");
-				}
-			}
-		});
+			});
+		}
 	});
 
-	$('.removeCourse').click(function(){
-		code = String(prompt("Enter a course code to remove", ""));
-
-		var course = {
-			"code" : code
-		};
-
-		$.ajax({
-			url : "/removeACourse",
-			data : course,
-			method: "POST",
-			success : function(response){
-				if(response===false){
-					alert("that course doesn't exist");
-				}
-				else{
-					alert("course has been removed");
-				}
-			}
-		});
+	$('.allCourses').click(function(){
+		showCourses();
 	});
-
-	$('.allCourses').click(showCourses());
 
 	function showCourses(){
 		$.ajax({
@@ -73,7 +56,16 @@ function DocumentReady(){
 				for(i=0; i<data.notes.length; i++){
 					tableData.push(data.notes[i].title);
 				}
-				createTable(tableData, false);
+				if(tableData.length!==0){
+					createTable(tableData, false);
+				}
+				else{
+					var linkList = document.getElementById("linkTable");
+					$(linkTable).empty();
+					var p = document.createElement("p");
+					p.innerHTML = "You haven't made any notes yet";
+					linkList.appendChild(p);
+				}
 			}
 		});
 	});
