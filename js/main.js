@@ -12,7 +12,7 @@ function DocumentReady(){
 				for(i=0; i<data.length; i++){
 					tableData.push(data[i].code);
 				}
-				createTable(tableData);
+				createTable(tableData, true);
 			}
 		});
 	});
@@ -26,7 +26,7 @@ function DocumentReady(){
 				for(i=0; i<data.notes.length; i++){
 					tableData.push(data.notes[i].title);
 				}
-				createTable(tableData);
+				createTable(tableData, false);
 			}
 		});
 	});
@@ -45,11 +45,18 @@ function DocumentReady(){
 		});
 	});
 
-	function createTable(tableData){
+	function createTable(tableData,noteOrCourse){
 		var linkList = document.getElementById("linkTable");
+		$(linkTable).empty();
 		for(j=0; j<tableData.length; j++){
 			var li = document.createElement("li");
 			var a = document.createElement('a');
+			if (noteOrCourse){
+				//a.setAttribute('href', "http://localhost:3000/note");
+			}
+			else{
+				a.setAttribute('href', "http://localhost:3000/note?title="+tableData[j]);
+			}
 			a.innerHTML = tableData[j];
 			li.appendChild(a);
 			linkList.appendChild(li);

@@ -29,6 +29,7 @@ app.set('view engine', 'html');
 var nameError = false;
 var mailError = false;
 var titleError = false;
+var courseError = false;
 var passmatch = true;
 var userExist = true;
 
@@ -85,8 +86,12 @@ app.get('/', function(req, res) {
     res.render('indextest', {errors : ''});
 });
 app.get('/note', function(req, res) {
+    if(req.query.title){
+        req.session.title=req.query.title;
+    }
     res.render('note');
 });
+
 app.get('/courses', all_Courses);
 app.get('/users', all_Users);
 app.get('/notes', all_Notes);
@@ -95,6 +100,7 @@ app.get('/notes', all_Notes);
 app.post('/login', log_In);
 app.get('/current', get_Current_User_Name);
 app.get('/currentDoc', current_User_Doc);
+app.get('/currentTitle', current_Title);
 app.get('/logout', log_Out);
 app.post('/notesave', note_Save);
 app.post('/signup', sign_Up); // Getting the value from a form input
@@ -106,26 +112,46 @@ function current_User_Doc(req,res){
     });
 }
 
+function current_Title(req,res){
+    Note.findOne({title:req.session.title}, function(err,foundNote){
+        if(foundNote !== null){
+            res.send(foundNote);
+        }
+        else{
+            res.send(false);
+        }
+    });
+}
+
 function note_Save(req, res) {
 
     titleError = false;
+    courseError = false;
 
-    function duplicateT(Title,Uploader,callback){
+    function noteCheck(Title,Uploader,Code,callback){
         Note.findOne({title:Title}, function(err, foundNote) {
             if (foundNote!==null){
                 if (foundNote.uploader !== Uploader){
                     titleError=true;
                 } 
             }
-            callback();
+            Course.findOne({code:req.body.code}, function(err, foundCourse){
+                if(foundCourse===null){
+                    courseError=true;
+                }
+                callback();
+            });
         });
     }
 
-    duplicateT(req.body.title, req.body.uploader, function() {
+    noteCheck(req.body.title, req.body.uploader, req.body.code, function() {
         if (titleError) {
-            res.send(false);
+            res.send("0");
 
-        } else {
+        } else if(courseError){
+            res.send("1");
+        }
+        else {
             Course.findOne({code:req.body.code}, function(err, foundCourse) {
                 Course.findOne({"notes.title":req.body.title}, function(err, foundNote) {
                     if(foundNote===null){
@@ -162,7 +188,6 @@ function note_Save(req, res) {
             });
             Note.findOne({title :req.body.title}, function(err, foundNote) {
                 if(foundNote === null){
-                    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhh");
                     var newNote = new Note({
                         uploader: req.body.uploader,
                         code: req.body.code,
@@ -172,16 +197,16 @@ function note_Save(req, res) {
                     newNote.save(function(err) {
                         if (err) throw err;
                     });
-                    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyy");
                 }
                 else{
                     foundNote.text = req.body.text;
+                    foundNote.code = req.body.code;
                     foundNote.save(function(err) {
                         if (err) throw err;
                     });
                 }
             });
-            res.send(true);
+            res.send("2");
         }
     });
 }
