@@ -5,6 +5,7 @@ function DocumentReady(){
 
 	setData();
 
+	//put the notes for the desired course into the link table
 	function  setData(){
 		
 		$.ajax({
@@ -32,6 +33,7 @@ function DocumentReady(){
 		});
 	}
 
+	//put all the courses in the data base into the link table
 	$('.allCourses').click(function showCourses(){
 		$.ajax({
 			url : "/courses",
@@ -50,6 +52,7 @@ function DocumentReady(){
 		setData();
 	});
 
+	//get the notes for the course being searched for by the user
 	$('.searchCourses').click(function(){
 		code = prompt("Search a course code", "");
 		if(code.length===0 || code === null || code === ""){
@@ -75,6 +78,7 @@ function DocumentReady(){
 		}
 	});
 	
+	//user logout, go back to login page
 	$('.logOut').click(function(){
 		$.ajax({
 			url : "/logout",
@@ -85,6 +89,7 @@ function DocumentReady(){
 		});
 	});
 
+	//go back to user home page
 	$('.homePage').click(function(){
 		$.ajax({
 			url : "/currentDoc",
@@ -100,6 +105,7 @@ function DocumentReady(){
 		});
 	});
 
+	//create the display table and link them to the corresponding url for the info for the note or course
 	function createTable(tableData,noteOrCourse){
 		var linkList = document.getElementById("linkTable");
 		$(linkTable).empty();
