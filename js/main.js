@@ -4,6 +4,8 @@ function DocumentReady(){
 
 	showCourses();
 
+
+	//search for a given course using a prompt input
 	$('.searchCourses').click(function(){
 		code = prompt("Search a course code", "");
 		if(code.length===0 || code === null || code === ""){
@@ -21,6 +23,7 @@ function DocumentReady(){
 					if(response===false){
 						alert("that course doesn't exist");
 					}
+					//if the course exists then navigate to its information page
 					else{
 						location.replace("http://localhost:3000/course_info?code="+response);
 					}
@@ -29,6 +32,7 @@ function DocumentReady(){
 		}
 	});
 
+	//add a course by getting the admin to enter the course code into a prompt input
 	$('.addCourse').click(function(){
 		code = prompt("Enter a course code to add", "");
 		if(code.length===0 || code === null || code === ""){
@@ -48,13 +52,14 @@ function DocumentReady(){
 					}
 					else{
 						alert("course has been added");
-						showCourses();
+						showCourses(); //once the course has been added, show all courses in the database
 					}
 				}
 			});
 		}
 	});
 
+	//an admin has the capability of making another user become an admin and this is done through a prompt input
 	$('.addAdmin').click(function(){
 		username = prompt("Enter a username", "");
 		if(username.length===0 || username === null || username === ""){
@@ -73,7 +78,6 @@ function DocumentReady(){
 						alert("that user doesn't exist");
 					}
 					else{
-						console.log("here88");
 						alert(username + " is now an admin");
 					}
 				}
@@ -85,6 +89,7 @@ function DocumentReady(){
 		showCourses();
 	});
 
+	//get all course codes, then store them in an array so that they can be passed to the table creating function
 	function showCourses(){
 		$.ajax({
 			url : "/courses",
@@ -99,6 +104,8 @@ function DocumentReady(){
 		});
 	}
 
+
+	//get all note titles for the logged in user, then store them in an array so that they can be passed to the table creating function
 	$('.myNotes').click(function(){
 		$.ajax({
 			url : "/currentDoc",
@@ -111,6 +118,7 @@ function DocumentReady(){
 				if(tableData.length!==0){
 					createTable(tableData, false);
 				}
+				//if no notes exist for the logged in user then display a message telling the user that
 				else{
 					var linkList = document.getElementById("linkTable");
 					$(linkTable).empty();
@@ -122,10 +130,12 @@ function DocumentReady(){
 		});
 	});
 
+	//navigate to the page where the user can make notes
 	$('.makeNote').click(function(){
 		location.replace("http://localhost:3000/note");
 	});
 
+	//log the user out 
 	$('.logOut').click(function(){
 		$.ajax({
 			url : "/logout",
@@ -136,12 +146,16 @@ function DocumentReady(){
 		});
 	});
 
+
+	//function for creating a list of either links of course codes or links of note titles
 	function createTable(tableData,noteOrCourse){
 		var linkList = document.getElementById("linkTable");
 		$(linkTable).empty();
 		for(j=0; j<tableData.length; j++){
 			var li = document.createElement("li");
 			var a = document.createElement('a');
+
+			//noteOrCourse will be false for a note and true for a course
 			if (noteOrCourse){
 				a.setAttribute('href', "http://localhost:3000/course_info?code="+tableData[j]);
 			}
