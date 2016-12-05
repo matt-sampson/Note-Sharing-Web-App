@@ -4,6 +4,7 @@ function DocumentReady(){
 
 	setData();
 
+	// retrieve the selected note's data and put it in the page
 	function  setData(){
 
 		$.ajax({
@@ -31,14 +32,17 @@ function DocumentReady(){
 		});
 	}
 
+	// set the note to read-only upon page load
 	document.getElementById("note-view").readOnly = true;
 	$("#toggle_edit").toggleClass("toggled");
 	
+	// toggle between edit/read-only mode
 	$("#toggle_edit").click(function() {
 		$(this).toggleClass("toggled");
 		toggleTextArea();
 	});
 
+	// search for a course's notes using a given course code
 	$('.searchCourses').click(function(){
 		code = prompt("Search a course code", "");
 		if(code.length===0 || code === null || code === ""){
@@ -64,6 +68,7 @@ function DocumentReady(){
 		}
 	});
 	
+	// toggle between edit/read-only mode
 	$('.logOut').click(function(){
 		$.ajax({
 			url : "/logout",
@@ -74,6 +79,7 @@ function DocumentReady(){
 		});
 	});
 
+	// take the user to the home page
 	$('.homePage').click(function(){
 		$.ajax({
 			url : "/currentDoc",
@@ -89,6 +95,8 @@ function DocumentReady(){
 		});
 	});
 
+	// helper function to switch between edit/read-only mode. change the text
+	// on the edit button depending on the mode.
 	function toggleTextArea() {
 		var disabled = document.getElementById("note-view").readOnly;
 		if (disabled) {
