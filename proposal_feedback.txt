@@ -1,8 +1,0 @@
-Yugoslavian_Folk_Dance_Appreciation_Society
-
-Feedback: Since you have another layer of complexity by allowing users to subscribe to courses, you could eliminate this feature if you don't have time, instead you could use courses as tags which users could search to filter out users who are in that course.
-
-You need to reorganize your app in order to be able to complete it in 3 weeks.
-
-Mark:
-8/10
